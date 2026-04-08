@@ -1,0 +1,76 @@
+{
+    "name": "coquibot/coqui-toolkit-cloudflare",
+    "description": "Cloudflare management toolkit for Coqui — DNS records, tunnels, zones, security, and analytics via the Cloudflare REST API v4.",
+    "type": "library",
+    "license": "MIT",
+    "keywords": [
+        "coqui",
+        "cloudflare",
+        "dns",
+        "tunnels",
+        "waf",
+        "firewall",
+        "analytics",
+        "toolkit",
+        "php-agents"
+    ],
+    "authors": [
+        {
+            "name": "Carmelo Santana"
+        }
+    ],
+    "require": {
+        "php": "^8.4",
+        "symfony/http-client": "^7.0"
+    },
+    "require-dev": {
+        "carmelosantana/php-agents": "^0.7",
+        "pestphp/pest": "^3.0",
+        "phpstan/phpstan": "^2.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "CoquiBot\\Toolkits\\Cloudflare\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "CoquiBot\\Toolkits\\Cloudflare\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "php-agents": {
+            "toolkits": [
+                "CoquiBot\\Toolkits\\Cloudflare\\CloudflareToolkit"
+            ],
+            "credentials": {
+                "CLOUDFLARE_API_TOKEN": "Cloudflare API token — create one at https://dash.cloudflare.com/profile/api-tokens with appropriate permissions (Zone:Read, DNS:Edit, etc.)",
+                "CLOUDFLARE_ACCOUNT_ID": {
+                    "description": "Cloudflare Account ID — required for tunnel and account-scoped operations. Found on the dashboard overview page.",
+                    "optional": true
+                }
+            },
+            "gated": {
+                "cf_zone": ["delete", "purge_cache"],
+                "cf_dns": ["delete", "import"],
+                "cf_tunnel": ["delete"],
+                "cf_tunnel_config": ["update"],
+                "cf_firewall": ["create_rule", "update_rule", "delete_rule"],
+                "cf_waf": ["update"],
+                "cf_page_rule": ["create", "update", "delete"]
+            }
+        }
+    },
+    "scripts": {
+        "test": "pest",
+        "analyse": "phpstan analyse"
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}
